@@ -9,8 +9,8 @@ const { resolveCWD } = require('../utils/');
 
 // TODO 可以支持多种拉取模版的能力
 module.exports = function got(ctx) {
-  const { template, group, contentDir = '', registry = '', config = {} } = ctx;
-  const templateName = template || group || registry;
+  const { template, contentDir = '', registry = '', config = {} } = ctx;
+  const templateName = template || registry;
   const { BRANCH, DOMAIN, GROUP, CLONE_DIR } = config;
 
   // 读取本地

@@ -2,16 +2,25 @@
 
 > 配置模版渲染器
 
+### Installation
+
+```bash
+npm install use-template
+```
+
 ### API
 
 ```js
 const templateRender = require('use-template');
 templateRender({
   template: 'ascp-query-list',
-  group: 'ascp-comp',
-  project: 'test-template',
-  version: '5.0.0',
-  author: 'kaihao.zkh',
+  variable: {
+    group: 'ascp-comp',
+    project: 'test-template',
+    version: '5.0.0',
+    author: 'kaihao.zkh',
+    description: '',
+  },
 });
 ```
 
@@ -21,8 +30,9 @@ templateRender({
 
 ```js
 ├── README.md
+├── tpl.config.js
+├── tplrc.js
 └── template
-  ├── README.md
   ├── __gitignore
   ├── ...
 ```

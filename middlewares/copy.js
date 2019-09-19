@@ -14,7 +14,7 @@ function ejsRender(ctx) {
   return Promise.all(
     ctx.fileList.map(filePath => {
       const content = ctx.fileContents(filePath);
-      const res = ejs.render(content, ctx.meta);
+      const res = ejs.render(content, ctx.meta.variable);
       ctx.writeContents(filePath, res);
     })
   );
@@ -27,7 +27,7 @@ function format(ctx) {
       let res;
       if (isJSFile(filePath) && notSeedFile(filePath)) {
         res = prettier.format(content, {
-          parser: 'babylon',
+          parser: 'babel',
           singleQuote: true,
           printWidth: 100,
           trailingComma: 'es5',
