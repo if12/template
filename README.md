@@ -7,6 +7,7 @@
 ```js
 const templateRender = require('use-template');
 templateRender({
+  template: 'ascp-query-list',
   group: 'ascp-comp',
   project: 'test-template',
   version: '5.0.0',

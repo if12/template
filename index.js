@@ -12,7 +12,9 @@ process.on('unhandledRejection', err => {
   console.error(chalk.red(err.stack));
 });
 
-module.exports = function templateRender(context = { config }) {
+module.exports = function templateRender(context = {}) {
+  context.config = { ...config, ...context.config };
+
   return (
     pickerWareHub
       .use(middlewares)
