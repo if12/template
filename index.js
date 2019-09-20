@@ -22,7 +22,7 @@ module.exports = function templateRender(context = {}) {
       .run(context)
       // 执行完所有的中间件之后，可以执行你定义的命令
       .then(ctx => {
-        runCmds(ctx.commands);
+        runCmds(ctx.commands, ctx);
       })
       .catch(err => {
         // 初始化失败就清空当前目录

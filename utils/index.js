@@ -6,11 +6,11 @@ const { TEMPLATE_RC_FILE, TEMPLATE_CONFIG_FILE } = require('../config');
 const resolveCWD = (...filepath) => path.resolve(process.cwd(), ...filepath);
 const hasGit = () => fs.existsSync(resolveCWD('.git'));
 
-const runCmds = (commands = []) => {
+const runCmds = (commands = [], ctx) => {
   commands.forEach(cmd => {
     execSync(cmd, {
       stdio: 'inherit',
-      cwd: process.cwd(),
+      cwd: ctx.dest || process.cwd(),
     });
   });
 };
