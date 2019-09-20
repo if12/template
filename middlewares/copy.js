@@ -67,7 +67,7 @@ const toMiddlewareMap = middlewares =>
   }, {});
 
 module.exports = function copy(ctx) {
-  const { config = {} } = ctx;
+  const { config = {}, dest } = ctx;
   const { CLONE_DIR, TEMPLATE_CONTENT_DIR } = config;
   const tailor = resolveTemplateRc(CLONE_DIR);
 
@@ -95,7 +95,7 @@ module.exports = function copy(ctx) {
       baseDir: resolveCWD(CLONE_DIR, TEMPLATE_CONTENT_DIR),
     })
     .use([tailor, ...middlewares])
-    .dest(CWD, {
+    .dest(dest || CWD, {
       baseDir: '/',
     })
     .catch(err => {
