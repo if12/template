@@ -8,7 +8,7 @@
 npm install use-template
 ```
 
-### API
+### 使用
 
 ```js
 const templateRender = require('use-template');
@@ -36,3 +36,11 @@ templateRender({
   ├── __gitignore
   ├── ...
 ```
+
+### API
+
+|参数|说明|类型|默认值|
+|:--:|:--:|:--:|:--:|
+|template|模版名称|String|无|
+|variable|模版内容变量|Object|{}|
+|dest|模版初始到对应的目的目录|String|当前文件夹|
