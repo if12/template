@@ -26,7 +26,7 @@ module.exports = function templateRender(context = {}) {
       })
       .catch(err => {
         // 初始化失败就清空当前目录
-        emptyDirSync(resolveCWD(''));
+        emptyDirSync(resolveCWD(context.dest || ''));
         throw err;
       })
   );

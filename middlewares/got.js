@@ -10,13 +10,13 @@ const { resolveCWD } = require('../utils/');
 
 // TODO 可以支持多种拉取模版的能力
 module.exports = function got(ctx) {
-  const { downloadType = 'http', template, contentDir = '', registry = '', config = {} } = ctx;
+  const { downloadType = 'clone', template, contentDir = '', registry = '', config = {} } = ctx;
   const templateName = template || registry;
   const { BRANCH, DOMAIN, GROUP, CLONE_DIR } = config;
 
   const downloadActions = {
-    clone: () => {
-      execSync(`git clone -b ${BRANCH} ${registry} ${CLONE_DIR} --depth=1`, {
+    clone: ({ gitRegistry }) => {
+      execSync(`git clone -b ${BRANCH} ${gitRegistry} ${CLONE_DIR} --depth=1`, {
         stdio: 'pipe',
       });
     },
@@ -32,14 +32,14 @@ module.exports = function got(ctx) {
   if (contentDir) {
     return copy(contentDir, CLONE_DIR);
   } else {
-    const registry = `git@${DOMAIN}:${GROUP}/${templateName}.git`;
+    const gitRegistry = `git@${DOMAIN}:${GROUP}/${templateName}.git`;
     const spinner = ora(`下载${templateName}模版...`).start();
 
     try {
-      downloadActions[downloadType]();
+      downloadActions[downloadType]({ gitRegistry });
     } catch (err) {
       spinner.fail();
-      throw new Error(`获取 ${registry} 失败! \n原因是 ${err.message}`);
+      throw new Error(`初始化 ${registry} 失败! \n原因是 ${err.message}`);
     }
     spinner.succeed();
     return remove(resolveCWD(CLONE_DIR, '.git'));
