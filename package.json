@@ -1,6 +1,6 @@
 {
   "name": "use-template",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "模版生成器",
   "main": "index.js",
   "repository": {
