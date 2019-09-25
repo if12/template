@@ -4,7 +4,7 @@ const path = require('path');
 
 const { TEMPLATE_RC_FILE, TEMPLATE_CONFIG_FILE } = require('../config');
 const resolveCWD = (...filepath) => path.resolve(process.cwd(), ...filepath);
-const hasGit = () => fs.existsSync(resolveCWD('.git'));
+const hasGit = dest => fs.existsSync(path.resolve(dest, '.git'));
 
 const runCmds = (commands = [], ctx) => {
   commands.forEach(cmd => {

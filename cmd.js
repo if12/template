@@ -11,7 +11,7 @@ const normalCmds = ['mv __gitignore .gitignore'];
 
 const createCmds = meta => {
   let cmds = [];
-  if (hasGit()) {
+  if (hasGit(meta.dest)) {
     // 如果开发目录有.git的话就不重新初始化了
     cmds = normalCmds;
   } else {
