@@ -1,4 +1,4 @@
-const { extname, basename } = require('path');
+const { extname, basename, resolve } = require('path');
 const prettier = require('prettier');
 const ejs = require('ejs');
 
@@ -90,9 +90,13 @@ module.exports = function copy(ctx) {
     commands,
   };
 
+  const baseDir = dest
+    ? resolve(dest, CLONE_DIR, TEMPLATE_CONTENT_DIR)
+    : resolveCWD(CLONE_DIR, TEMPLATE_CONTENT_DIR);
+
   return stream
     .source([`**`], {
-      baseDir: resolveCWD(CLONE_DIR, TEMPLATE_CONTENT_DIR),
+      baseDir,
     })
     .use([tailor, ...middlewares])
     .dest(dest || CWD, {

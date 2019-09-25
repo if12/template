@@ -1,13 +1,12 @@
 const { remove } = require('fs-extra');
+const { resolve } = require('path');
 const { resolveCWD } = require('../utils/');
 const { CLONE_DIR } = require('../config');
 
-const clean = (...filePath) => {
-  return () => {
-    return remove(resolveCWD(...filePath));
-  };
-};
-
 module.exports = {
-  cleanCloneDir: clean(CLONE_DIR),
+  cleanCloneDir: ctx => {
+    const { dest } = ctx;
+    const baseDir = dest ? resolve(dest, CLONE_DIR) : resolveCWD(CLONE_DIR);
+    return remove(baseDir);
+  },
 };

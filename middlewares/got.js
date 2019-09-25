@@ -2,28 +2,54 @@
  * 到 git 平台获取对应的 template
  */
 
+const { resolve } = require('path');
 const { execSync } = require('child_process');
-const { copy, remove } = require('fs-extra');
+const { copy, remove, readdirSync, renameSync, ensureDir } = require('fs-extra');
 const ora = require('ora');
-const download = require('download-git-repo');
+const download = require('download');
 const { resolveCWD } = require('../utils/');
 
-// TODO 可以支持多种拉取模版的能力
-module.exports = function got(ctx) {
-  const { downloadType = 'clone', template, contentDir = '', registry = '', config = {} } = ctx;
+module.exports = async function got(ctx) {
+  const {
+    downloadType = 'http',
+    template,
+    dest,
+    contentDir = '',
+    registry = '',
+    config = {},
+  } = ctx;
+
   const templateName = template || registry;
   const { BRANCH, DOMAIN, GROUP, CLONE_DIR } = config;
 
   const downloadActions = {
     clone: ({ gitRegistry }) => {
-      execSync(`git clone -b ${BRANCH} ${gitRegistry} ${CLONE_DIR} --depth=1`, {
+      const baseDir = dest ? resolve(dest, CLONE_DIR) : CLONE_DIR;
+      execSync(`git clone -b ${BRANCH} ${gitRegistry} ${baseDir} --depth=1`, {
         stdio: 'pipe',
       });
     },
 
     http: () => {
-      download(`${DOMAIN}:${GROUP}/${templateName}#${BRANCH}`, CLONE_DIR, {}, err => {
-        throw err;
+      const type = DOMAIN.split('.')[0];
+      let url = '';
+
+      if (type === 'github') {
+        url = `${DOMAIN}/${GROUP}/${templateName}/archive/${BRANCH}.zip`;
+      } else {
+        url = `${DOMAIN}/${GROUP}/${templateName}/repository/archive.zip?ref=${BRANCH}`;
+      }
+
+      return download(url, dest, {
+        extract: true,
+      }).then(() => {
+        // 拿到文件夹里面的内容
+        const src = `${dest}/${readdirSync(dest)[0]}`;
+        const destPath = `${dest}/${CLONE_DIR}`;
+
+        return ensureDir(destPath).then(() => {
+          renameSync(src, destPath);
+        });
       });
     },
   };
@@ -36,7 +62,7 @@ module.exports = function got(ctx) {
     const spinner = ora(`下载${templateName}模版...`).start();
 
     try {
-      downloadActions[downloadType]({ gitRegistry });
+      await downloadActions[downloadType]({ gitRegistry });
     } catch (err) {
       spinner.fail();
       throw new Error(`初始化 ${registry} 失败! \n原因是 ${err.message}`);
