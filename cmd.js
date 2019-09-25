@@ -1,7 +1,9 @@
 const { hasGit } = require('./utils/index');
 
-const makeGitInitCmds = ({ config, group, project }) => {
+const makeGitInitCmds = ({ config, variable }) => {
+  const { group, project } = variable;
   const { DOMAIN } = config;
+
   return ['git init', `git remote add origin git@${DOMAIN}:${group}/${project}.git`];
 };
 
