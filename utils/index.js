@@ -30,8 +30,8 @@ const defaultTemplateConf = {
   templateDidMount: ({ commands } = {}) => commands,
 };
 
-const resolveTemplateConf = (filepath, ctx) => {
-  const { templateConf } = ctx;
+const resolveTemplateConf = (filepath, ctx = {}) => {
+  const { templateConf = {} } = ctx;
   const templateConfFile = resolveCWD(filepath, TEMPLATE_CONFIG_FILE);
   let finalTemplateConf = defaultTemplateConf;
 

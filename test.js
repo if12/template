@@ -10,7 +10,6 @@ fse
     templateRender({
       template: 'node-template',
       dest: fixtures,
-      downloadType: 'clone',
       config: {
         GROUP: 'if12',
       },
