@@ -69,13 +69,14 @@ const toMiddlewareMap = middlewares =>
 module.exports = function copy(ctx) {
   const { config = {}, dest } = ctx;
   const { CLONE_DIR, TEMPLATE_CONTENT_DIR } = config;
-  const tailor = resolveTemplateRc(CLONE_DIR);
+  const baseDir = dest ? resolve(dest, CLONE_DIR) : CLONE_DIR;
+  const tailor = resolveTemplateRc(baseDir);
 
   const {
     templateWillCopy = () => defaultMiddlewares,
     templateDidCollectMeta,
     templateDidMount,
-  } = resolveTemplateConf(CLONE_DIR);
+  } = resolveTemplateConf(baseDir, ctx);
 
   // 模版可以自定义中间件
   const middlewares = templateWillCopy(toMiddlewareMap(defaultMiddlewares)).map(getMiddleware);

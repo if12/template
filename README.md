@@ -45,3 +45,5 @@ templateRender({
 | downloadType | 下载方式(clone 或者 http) | String |    http    |
 |   variable   |       模版内容变量        | Object |     {}     |
 |     dest     | 模版初始到对应的目的目录  | String | 当前文件夹 |
+|  contentDir  |         本地 copy         | String |     无     |
+| templateConf |    模版初始化生命周期     | Object |     {}     |

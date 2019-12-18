@@ -56,7 +56,8 @@ module.exports = async function got(ctx) {
 
   // 读取本地
   if (contentDir) {
-    return copy(contentDir, CLONE_DIR);
+    const baseDir = dest ? resolve(dest, CLONE_DIR) : CLONE_DIR;
+    return copy(contentDir, baseDir);
   } else {
     const gitRegistry = `git@${DOMAIN}:${GROUP}/${templateName}.git`;
     const spinner = ora(`下载${templateName}模版...`).start();

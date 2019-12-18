@@ -30,17 +30,19 @@ const defaultTemplateConf = {
   templateDidMount: ({ commands } = {}) => commands,
 };
 
-const resolveTemplateConf = filepath => {
+const resolveTemplateConf = (filepath, ctx) => {
+  const { templateConf } = ctx;
   const templateConfFile = resolveCWD(filepath, TEMPLATE_CONFIG_FILE);
+  let finalTemplateConf = defaultTemplateConf;
+
   if (fs.existsSync(templateConfFile)) {
-    const templateConf = require(templateConfFile);
-    return {
+    finalTemplateConf = {
       ...defaultTemplateConf,
-      ...templateConf,
+      ...require(templateConfFile),
     };
-  } else {
-    return defaultTemplateConf;
   }
+
+  return { ...finalTemplateConf, ...templateConf };
 };
 
 module.exports = { resolveCWD, runCmds, hasGit, resolveTemplateConf, resolveTemplateRc };
