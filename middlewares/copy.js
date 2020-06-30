@@ -13,7 +13,7 @@ const notSeedFile = filePath => basename(filePath, '.js') !== 'seed';
 function ejsRender(ctx) {
   return Promise.all(
     ctx.fileList.map(filePath => {
-      const contents = this.files[filePath].contents.toString();
+      const contents = ctx.files[filePath].contents.toString();
       const res = ejs.render(contents, ctx.meta.variable);
       ctx.writeContents(filePath, res);
     })
