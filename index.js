@@ -1,12 +1,12 @@
 const chalk = require('chalk');
-const { emptyDirSync } = require('fs-extra');
+const { emptyDirSync, readdirSync } = require('fs-extra');
 
 const config = require('./config');
 const middlewares = require('./middlewares/index');
 const { runCmds, resolveCWD } = require('./utils/index');
 const WareHub = require('./warehub');
 
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
   console.error(chalk.red(err.stack));
 });
 
@@ -20,12 +20,13 @@ module.exports = function templateRender(context = {}) {
       // 设置每一个中间件的context
       .run(context)
       // 执行完所有的中间件之后，可以执行你定义的命令
-      .then(ctx => {
+      .then((ctx) => {
         runCmds(ctx.commands, ctx);
       })
-      .catch(err => {
+      .catch((err) => {
         // 初始化失败就清空当前目录
         emptyDirSync(resolveCWD(context.dest || ''));
+        console.log('[DIR]', readdirSync(context.dest));
         throw err;
       })
   );

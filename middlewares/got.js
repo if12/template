@@ -25,6 +25,7 @@ module.exports = async function got(ctx) {
   const downloadActions = {
     clone: ({ gitRegistry }) => {
       const baseDir = dest ? resolve(dest, CLONE_DIR) : CLONE_DIR;
+      console.log('[Git Clone]', `git clone -b ${BRANCH} ${gitRegistry} ${baseDir} --depth=1`);
       execSync(`git clone -b ${BRANCH} ${gitRegistry} ${baseDir} --depth=1`, {
         stdio: 'pipe',
       });

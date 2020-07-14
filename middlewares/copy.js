@@ -11,6 +11,7 @@ const isJSFile = filePath => extname(filePath) == '.js';
 const notSeedFile = filePath => basename(filePath, '.js') !== 'seed';
 
 function ejsRender(ctx) {
+  console.log('ctx.fileList', ctx.fileList);
   return Promise.all(
     ctx.fileList.map(filePath => {
       const contents = ctx.files[filePath].contents.toString();
