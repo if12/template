@@ -19,7 +19,6 @@ const options = {
   templateConf,
   config: {
     GROUP: 'if12',
-    TEMPLATE_CONTENT_DIR: '',
   },
   variable: {
     group: 'if12',
