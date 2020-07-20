@@ -1,3 +1,4 @@
 node_modules
 fixtures
 .DS_Store
+.vscode

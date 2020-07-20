@@ -28,9 +28,13 @@ const options = {
   },
 };
 
-fse
-  .ensureDir('./fixtures')
-  .then(() => templateRender(options))
-  .then(() => {
-    console.log('初始化模版成功');
-  });
+const go = () => {
+  return fse
+    .ensureDir(fixtures)
+    .then(() => templateRender(options))
+    .then(() => {
+      console.log('初始化模版成功');
+    });
+};
+
+module.exports = go;
